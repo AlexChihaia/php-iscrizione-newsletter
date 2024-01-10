@@ -1,3 +1,17 @@
+<?php
+include_once 'functions.php';
+
+if (isset($_GET['email'])) {
+    $email = $_GET['email'];
+    if (validate_email($email)) {
+        $message = 'Success: The email contains a dot and an at sign.';
+        $alert_class = 'alert-success';
+    } else {
+        $message = 'Error: The email does not contain a dot and an at sign.';
+        $alert_class = 'alert-danger';
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,17 +28,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <?php
-                if (isset($_GET['email'])) {
-                    $email = $_GET['email'];
-                    #funzione validate_email
-                    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        echo '<div class="alert alert-success" role="alert">Success: The email contains a dot and an at sign.</div>';
-                    } else {
-                        echo '<div class="alert alert-danger" role="alert">Error: The email does not contain a dot and an at sign.</div>';
-                    }
-                }
-                ?>
+                <?php if (isset($message)) : ?>
+                    <div class="alert <?php echo $alert_class; ?>" role="alert">
+                        <?php echo $message; ?>
+                    </div>
+                <?php endif; ?>
                 <form action="index.php" method="get">
                     <div class="form-group">
                         <label for="email">Email</label>
